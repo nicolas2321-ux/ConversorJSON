@@ -1,2 +1,2 @@
 # ConversorJSON
-Conversor de schemas de json a json formateado para Facturacion electronica en El Salvador
+Validador de JSON conforme a los schemas dados por el gobierno de el salvador
