@@ -1,11 +1,20 @@
 const { Validator } = require("jsonschema")
 const CreditoFiscal = require("../models/fe-ccf-v3.json")
-
+const FacturaElectronica = require("../models/fe-fc-v1.json")
 const validator = new Validator()
-const conversor = async (req, res) => {
+const revisionFactura = async (req, res) => {
     try {
         const object = req.body
-        const result = validator.validate(req.body, CreditoFiscal)
+        const tipo = req.params.tipo
+        let result = null	
+        if(tipo === "FacturaElectronica"){
+         result = validator.validate(req.body, FacturaElectronica)
+        }else if(tipo === "CreditoFiscal"){
+         result = validator.validate(req.body, CreditoFiscal)
+        }else{
+            res.status(400).json({ message: "Tipo de factura no soportado" })
+            return
+        }
         console.log(result)
        if(result.errors.length > 0) {
            res.status(400).json({ message: "Error de validacion", errors: result.errors })
@@ -19,4 +28,6 @@ const conversor = async (req, res) => {
     }
 }
 
-module.exports = { conversor }
+
+
+module.exports = { revisionFactura }
